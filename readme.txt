@@ -1,1 +1,0 @@
-This text is example for configuring git.
