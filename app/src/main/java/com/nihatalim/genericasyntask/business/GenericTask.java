@@ -3,6 +3,8 @@ package com.nihatalim.genericasyntask.business;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
+
 import com.nihatalim.genericasyntask.interfaces.OnBackgroundState;
 import com.nihatalim.genericasyntask.interfaces.OnPostState;
 import com.nihatalim.genericasyntask.interfaces.OnPreState;
@@ -18,6 +20,8 @@ public class GenericTask<TRequest, TResponse> extends AsyncTask<TRequest, Void, 
     private OnPreState onPreExecute = null;
     private OnBackgroundState<TRequest,TResponse> onBackground = null;
     private OnPostState<TResponse> onPostExecute = null;
+
+    private CountDownTimer countDownTimer = null;
 
 
     public GenericTask(Context context, Class<TResponse> ResponseClass) {
@@ -51,6 +55,7 @@ public class GenericTask<TRequest, TResponse> extends AsyncTask<TRequest, Void, 
     @Override
     protected void onPostExecute(TResponse tResponse) {
         super.onPostExecute(tResponse);
+        this.getCountDownTimer().cancel();
         if(this.onPostExecute != null){
             this.onPostExecute.run(tResponse);
         }
@@ -89,4 +94,15 @@ public class GenericTask<TRequest, TResponse> extends AsyncTask<TRequest, Void, 
         this.onPostExecute = onPostExecute;
     }
 
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
+    }
+
+    public CountDownTimer getCountDownTimer() {
+        return countDownTimer;
+    }
+
+    public void setCountDownTimer(CountDownTimer countDownTimer) {
+        this.countDownTimer = countDownTimer;
+    }
 }
