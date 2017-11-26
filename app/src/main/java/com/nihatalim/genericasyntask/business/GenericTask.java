@@ -8,11 +8,13 @@ import android.os.CountDownTimer;
 import com.nihatalim.genericasyntask.interfaces.OnBackgroundState;
 import com.nihatalim.genericasyntask.interfaces.OnPostState;
 import com.nihatalim.genericasyntask.interfaces.OnPreState;
+import com.nihatalim.genericasyntask.interfaces.OnProgressUpdateState;
+
 /**
  * Created by thecower on 19.11.2017.
  */
 
-public class GenericTask<TRequest, TResponse> extends AsyncTask<TRequest, Void, TResponse> {
+public class GenericTask<TRequest, TProgress, TResponse> extends AsyncTask<TRequest, TProgress, TResponse> {
     private ProgressDialog progressDialog = null;
     private Class<TResponse> ResponseClass = null;
     private Context context = null;
@@ -20,6 +22,7 @@ public class GenericTask<TRequest, TResponse> extends AsyncTask<TRequest, Void, 
     private OnPreState onPreExecute = null;
     private OnBackgroundState<TRequest,TResponse> onBackground = null;
     private OnPostState<TResponse> onPostExecute = null;
+    private OnProgressUpdateState onProgressUpdateState = null;
 
     private CountDownTimer countDownTimer = null;
 
@@ -70,6 +73,12 @@ public class GenericTask<TRequest, TResponse> extends AsyncTask<TRequest, Void, 
         return null;
     }
 
+    @Override
+    protected void onProgressUpdate(TProgress... values) {
+        super.onProgressUpdate(values);
+        this.onProgressUpdateState.run(values);
+    }
+
     public OnPreState getOnPreExecute() {
         return onPreExecute;
     }
@@ -104,5 +113,17 @@ public class GenericTask<TRequest, TResponse> extends AsyncTask<TRequest, Void, 
 
     public void setCountDownTimer(CountDownTimer countDownTimer) {
         this.countDownTimer = countDownTimer;
+    }
+
+    public OnProgressUpdateState getOnProgressUpdateState() {
+        return onProgressUpdateState;
+    }
+
+    public void setOnProgressUpdateState(OnProgressUpdateState onProgressUpdateState) {
+        this.onProgressUpdateState = onProgressUpdateState;
+    }
+
+    public void publishProgressTask(TProgress... objects){
+        this.publishProgress(objects);
     }
 }

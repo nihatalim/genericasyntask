@@ -18,6 +18,9 @@ import com.nihatalim.genericasyntask.interfaces.OnBackgroundState;
 import com.nihatalim.genericasyntask.interfaces.OnPostState;
 import com.nihatalim.genericasyntask.interfaces.OnPreState;
 import com.nihatalim.genericasyntask.interfaces.OnProgressUpdateState;
+import com.nihatalim.genericasyntask.models.User;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnClick = null;
@@ -43,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
         this.btnClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GenericTaskBuilder.instance()
+
+                final GenericTaskBuilder builder = GenericTaskBuilder.instance();
+                builder
                         .Context(getContext())
                         .ProcessTime(11000)
                         .build()
@@ -53,14 +58,18 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("GenericTask:", "OnPreState");
                             }
                         })
+
                         .OnBackgroundState(new OnBackgroundState() {
                             @Override
                             public Object run(Object[] objects) {
                                 Log.d("GenericTask:", "OnBackgroundState");
-                                try {
-                                    Thread.sleep(5000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                                for (int i=1;i<6;i++){
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    builder.getTask().publishProgressTask(i);
                                 }
                                 return null;
                             }
@@ -74,66 +83,13 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .OnProgressUpdateState(new OnProgressUpdateState() {
                             @Override
-                            public void run(Object obj) {
-                                long remain = (long) obj;
-                                Toast.makeText(getContext(), "Interrupt task after seconds of : " + remain/1000, Toast.LENGTH_SHORT).show();
+                            public void run(Object... obj) {
+                                btnClick.setText("sayi -> "+ obj[0].toString());
                             }
                         })
-                        .execute("Merhaba");
-
-                /*
-
-                GenericTask<String, Integer> task = new GenericTask<String, Integer>(getContext(), Integer.class, new OnPreState() {
-                    @Override
-                    public void run() {
-
-                    }
-                }, new OnBackgroundState() {
-                    @Override
-                    public Object run(Object[] objects) {
-                        return null;
-                    }
-                }, new OnPostState() {
-                    @Override
-                    public void run(Object o) {
-
-                    }
-                });
-
-                task.execute("Merba");
-                */
+                        .execute();
             }
         });
-
-                /*
-        GenericTaskBuilder.instance()
-                .Context(this.getContext())
-                .ProcessTime(10)
-                .build()
-                .OnPreState(new OnPreState() {
-                    @Override
-                    public void run() {
-
-                    }
-                })
-
-                .OnBackgroundState(new OnBackgroundState<String, String>(){
-                    @Override
-                    public String run(String... strings) {
-                        return null;
-                    }
-                })
-
-                .OnPostState(new OnPostState<String>() {
-                    @Override
-                    public void run(String o) {
-
-                    }
-                })
-                .getTask();
-
-            */
-
 
     }
 

@@ -35,7 +35,7 @@ public class GenericTaskBuilder {
     private Object Parameter = null;
     private GenericTask Task = null;
 
-    private OnProgressUpdateState progressUpdateState = null;
+    private boolean executed = false;
 
     public GenericTaskBuilder() {
 
@@ -81,7 +81,7 @@ public class GenericTaskBuilder {
     }
 
     public GenericTaskBuilder OnProgressUpdateState(OnProgressUpdateState state){
-        this.progressUpdateState = state;
+        this.Task.setOnProgressUpdateState(state);
         return this;
     }
 
@@ -91,10 +91,10 @@ public class GenericTaskBuilder {
     }
 
     public void execute(Object... requests){
+        this.executed = true;
         this.Task.setCountDownTimer(new CountDownTimer(processTime,intervalTime){
             @Override
             public void onTick(long l) {
-                progressUpdateState.run(l);
             }
 
             @Override
@@ -111,6 +111,14 @@ public class GenericTaskBuilder {
 
     public GenericTask getTask() {
         return this.Task;
+    }
+
+    public boolean isExecuted() {
+        return executed;
+    }
+
+    public void setExecuted(boolean executed) {
+        this.executed = executed;
     }
 
 }
