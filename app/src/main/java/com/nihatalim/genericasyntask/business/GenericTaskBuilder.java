@@ -12,6 +12,7 @@ import com.nihatalim.genericasyntask.interfaces.OnBackgroundState;
 import com.nihatalim.genericasyntask.interfaces.OnPostState;
 import com.nihatalim.genericasyntask.interfaces.OnPreState;
 import com.nihatalim.genericasyntask.interfaces.OnProgressUpdateState;
+import com.nihatalim.genericasyntask.interfaces.TimeoutProcess;
 import com.nihatalim.genericasyntask.models.User;
 
 import java.lang.reflect.Type;
@@ -36,6 +37,8 @@ public class GenericTaskBuilder {
     private GenericTask Task = null;
 
     private boolean executed = false;
+
+    private TimeoutProcess timeoutProcess = null;
 
     public GenericTaskBuilder() {
 
@@ -85,6 +88,11 @@ public class GenericTaskBuilder {
         return this;
     }
 
+    public GenericTaskBuilder OnTimedOut(TimeoutProcess state){
+        this.timeoutProcess = state;
+        return this;
+    }
+
     public GenericTaskBuilder build(){
         this.Task = new GenericTask(this.context,this.ResponseType);
         return this;
@@ -101,7 +109,10 @@ public class GenericTaskBuilder {
             public void onFinish() {
                 Task.cancel(true);
                 Task.getProgressDialog().dismiss();
-                Toast.makeText(context, context.getString(R.string.timeout_error), Toast.LENGTH_SHORT).show();
+                if(timeoutProcess !=null){
+                    timeoutProcess.run();
+                }
+                //Toast.makeText(context, context.getString(R.string.timeout_error), Toast.LENGTH_SHORT).show();
             }
         });
 

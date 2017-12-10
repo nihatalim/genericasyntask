@@ -18,6 +18,7 @@ import com.nihatalim.genericasyntask.interfaces.OnBackgroundState;
 import com.nihatalim.genericasyntask.interfaces.OnPostState;
 import com.nihatalim.genericasyntask.interfaces.OnPreState;
 import com.nihatalim.genericasyntask.interfaces.OnProgressUpdateState;
+import com.nihatalim.genericasyntask.interfaces.TimeoutProcess;
 import com.nihatalim.genericasyntask.models.User;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 final GenericTaskBuilder builder = GenericTaskBuilder.instance();
                 builder
                         .Context(getContext())
-                        .ProcessTime(11000)
+                        .ProcessTime(3000)
                         .build()
                         .OnPreState(new OnPreState() {
                             @Override
@@ -84,7 +85,14 @@ public class MainActivity extends AppCompatActivity {
                         .OnProgressUpdateState(new OnProgressUpdateState() {
                             @Override
                             public void run(Object... obj) {
-                                btnClick.setText("sayi -> "+ obj[0].toString());
+                                builder.getTask().getProgressDialog().setMessage(obj[0].toString());
+                            }
+                        })
+
+                        .OnTimedOut(new TimeoutProcess() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), getString(R.string.timeout_error), Toast.LENGTH_SHORT).show();
                             }
                         })
                         .execute();
