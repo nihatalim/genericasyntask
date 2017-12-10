@@ -1,4 +1,4 @@
-package com.nihatalim.genericasyntask.interfaces;
+package com.nihatalim.generictaskbuilder.interfaces;
 
 /**
  * Created by thecower on 12/10/17.

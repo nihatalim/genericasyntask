@@ -2,7 +2,6 @@ package com.nihatalim.genericasyntask;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,17 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import com.nihatalim.generictaskbuilder.business.GenericTaskBuilder;
+import com.nihatalim.generictaskbuilder.interfaces.*;
 
-import com.nihatalim.genericasyntask.business.GenericTask;
-import com.nihatalim.genericasyntask.business.GenericTaskBuilder;
-import com.nihatalim.genericasyntask.interfaces.OnBackgroundState;
-import com.nihatalim.genericasyntask.interfaces.OnPostState;
-import com.nihatalim.genericasyntask.interfaces.OnPreState;
-import com.nihatalim.genericasyntask.interfaces.OnProgressUpdateState;
-import com.nihatalim.genericasyntask.interfaces.TimeoutProcess;
-import com.nihatalim.genericasyntask.models.User;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnClick = null;
@@ -51,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 final GenericTaskBuilder builder = GenericTaskBuilder.instance();
                 builder
                         .Context(getContext())
-                        .ProcessTime(3000)
+                        .ProcessTime(11000)
                         .build()
                         .OnPreState(new OnPreState() {
                             @Override
@@ -99,11 +90,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-
-    public String backGroundMethod(){
-        return "BACKGROUND";
     }
 
     private Context getContext(){

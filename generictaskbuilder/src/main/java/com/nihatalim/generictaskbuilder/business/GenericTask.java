@@ -1,14 +1,13 @@
-package com.nihatalim.genericasyntask.business;
+package com.nihatalim.generictaskbuilder.business;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
-
-import com.nihatalim.genericasyntask.interfaces.OnBackgroundState;
-import com.nihatalim.genericasyntask.interfaces.OnPostState;
-import com.nihatalim.genericasyntask.interfaces.OnPreState;
-import com.nihatalim.genericasyntask.interfaces.OnProgressUpdateState;
+import com.nihatalim.generictaskbuilder.interfaces.OnBackgroundState;
+import com.nihatalim.generictaskbuilder.interfaces.OnPostState;
+import com.nihatalim.generictaskbuilder.interfaces.OnPreState;
+import com.nihatalim.generictaskbuilder.interfaces.OnProgressUpdateState;
 
 /**
  * Created by thecower on 19.11.2017.

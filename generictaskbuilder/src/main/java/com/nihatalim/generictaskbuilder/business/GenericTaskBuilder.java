@@ -1,25 +1,9 @@
-package com.nihatalim.genericasyntask.business;
+package com.nihatalim.generictaskbuilder.business;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.CountDownTimer;
-import android.support.design.widget.Snackbar;
-import android.widget.Toast;
-
-import com.nihatalim.genericasyntask.R;
-import com.nihatalim.genericasyntask.interfaces.OnBackgroundState;
-import com.nihatalim.genericasyntask.interfaces.OnPostState;
-import com.nihatalim.genericasyntask.interfaces.OnPreState;
-import com.nihatalim.genericasyntask.interfaces.OnProgressUpdateState;
-import com.nihatalim.genericasyntask.interfaces.TimeoutProcess;
-import com.nihatalim.genericasyntask.models.User;
-
-import java.lang.reflect.Type;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import com.nihatalim.generictaskbuilder.interfaces.*;
 
 
 /**
