@@ -17,12 +17,13 @@ public class GenericTaskBuilder {
     private ProgressDialog progressDialog = null;
     private Context context = null;
     private Class ResponseType = null;
-    private Object Parameter = null;
     private GenericTask Task = null;
 
     private boolean executed = false;
 
     private TimeoutProcess timeoutProcess = null;
+
+    private boolean progressDialogVisibility = true;
 
     public GenericTaskBuilder() {
 
@@ -34,6 +35,11 @@ public class GenericTaskBuilder {
 
     public GenericTaskBuilder ProgressDialog(ProgressDialog progressDialog){
         this.progressDialog = progressDialog;
+        return this;
+    }
+
+    public GenericTaskBuilder ProgressDialogVisibility(boolean visibility){
+        this.progressDialogVisibility = progressDialogVisibility;
         return this;
     }
 
@@ -79,6 +85,7 @@ public class GenericTaskBuilder {
 
     public GenericTaskBuilder build(){
         this.Task = new GenericTask(this.context,this.ResponseType);
+        this.Task.setpDialogShow(this.progressDialogVisibility);
         return this;
     }
 

@@ -16,7 +16,8 @@ import com.nihatalim.generictaskbuilder.interfaces.OnProgressUpdateState;
 public class GenericTask<TRequest, TProgress, TResponse> extends AsyncTask<TRequest, TProgress, TResponse> {
     private ProgressDialog progressDialog = null;
     private Class<TResponse> ResponseClass = null;
-    private Context context = null;
+    private Context context = null;    private Object Parameter = null;
+
 
     private OnPreState onPreExecute = null;
     private OnBackgroundState<TRequest,TResponse> onBackground = null;
@@ -24,6 +25,8 @@ public class GenericTask<TRequest, TProgress, TResponse> extends AsyncTask<TRequ
     private OnProgressUpdateState onProgressUpdateState = null;
 
     private CountDownTimer countDownTimer = null;
+
+    private boolean pDialogShow = true;
 
 
     public GenericTask(Context context, Class<TResponse> ResponseClass) {
@@ -48,7 +51,7 @@ public class GenericTask<TRequest, TProgress, TResponse> extends AsyncTask<TRequ
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        this.progressDialog.show();
+        if(pDialogShow) this.progressDialog.show();
         if(this.onPreExecute != null){
             this.onPreExecute.run();
         }
@@ -61,7 +64,7 @@ public class GenericTask<TRequest, TProgress, TResponse> extends AsyncTask<TRequ
         if(this.onPostExecute != null){
             this.onPostExecute.run(tResponse);
         }
-        this.progressDialog.dismiss();
+        if(pDialogShow) this.progressDialog.dismiss();
     }
 
     @Override
@@ -124,5 +127,13 @@ public class GenericTask<TRequest, TProgress, TResponse> extends AsyncTask<TRequ
 
     public void publishProgressTask(TProgress... objects){
         this.publishProgress(objects);
+    }
+
+    public boolean ispDialogShow() {
+        return pDialogShow;
+    }
+
+    public void setpDialogShow(boolean pDialogShow) {
+        this.pDialogShow = pDialogShow;
     }
 }
